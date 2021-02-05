@@ -172,7 +172,7 @@ final class Html2Text
 
 		// Replace non-trivial patterns
 		foreach ($this->searchReplaceCallback as $regexp) {
-			$text = preg_replace_callback($regexp, function (array $matches): string {
+			$text = (string) preg_replace_callback($regexp, function (array $matches): string {
 				if ($matches === []) {
 					return '?';
 				}
@@ -195,7 +195,7 @@ final class Html2Text
 		}
 
 		// Strip any other HTML tags
-		$text = strip_tags($text, $this->allowedTags);
+		$text = strip_tags($text, (string) $this->allowedTags);
 
 		// Bring down number of empty lines to 2 max
 		$text = (string) preg_replace("/\n\\s+\n/", "\n\n", $text);
