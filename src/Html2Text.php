@@ -201,8 +201,8 @@ final class Html2Text
 		$text = (string) preg_replace("/\n\\s+\n/", "\n\n", $text);
 		$text = (string) preg_replace("/[\n]{3,}/", "\n\n", $text);
 
-		// Add link list
-		if ($this->linkList !== '') {
+		/** @phpstan-ignore-next-line */
+		if ($this->linkList !== '') { // Add link list
 			$text .= "\n\n" . (self::LINKS_LOCALE[$locale] ?? 'Links') . ":\n-------\n" . $this->linkList;
 		}
 
