@@ -142,7 +142,7 @@ final class Html2Text
 		} else {
 			// Strip any trailing slashes for consistency
 			// (relative URLs may already start with a slash like "/file.html")
-			if (substr($url, -1) === '/') {
+			if (str_ends_with($url, '/')) {
 				$url = substr($url, 0, -1);
 			}
 
@@ -190,7 +190,7 @@ final class Html2Text
 					$result = mb_strtoupper("\t\t" . $matches[1] . "\n");
 				}
 
-				return $result;
+				return $result ?? '';
 			}, $text);
 		}
 
@@ -202,7 +202,7 @@ final class Html2Text
 		$text = (string) preg_replace("/[\n]{3,}/", "\n\n", $text);
 
 		// Add link list
-		if (empty($this->linkList) === false) {
+		if ($this->linkList !== '') {
 			$text .= "\n\n" . (self::LINKS_LOCALE[$locale] ?? 'Links') . ":\n-------\n" . $this->linkList;
 		}
 
@@ -243,7 +243,7 @@ final class Html2Text
 			$this->linkCounter++;
 			$this->linkList .= '[' . $this->linkCounter . "] $link\n";
 			$additional = ' [' . $this->linkCounter . ']';
-		} elseif (strncmp($link, 'javascript:', 11)) {
+		} elseif (str_starts_with($link, 'javascript:')) {
 			$additional = '';
 		} else {
 			$this->linkCounter++;
